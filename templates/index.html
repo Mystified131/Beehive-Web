@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<br>
+<div align = "center">
+<h2>Welcome To Beehive</h2>
+<h4><em><a href = "https://github.com/Mystified131">Thomas Park's</a> Solution To The Problem Of Unstructured Data</em></h4>
+<br><br>
+<ul align = "left">
+<li>You can use this page to add text to the "hive", or database.</li>
+<li>The code automatically breaks the text into 5-word phrases.</li>
+<li>Each phrase is stored separately.</li>
+<li>The more you (or a business) use your own hive, the more you build your own collection of phrases.</li>
+<li>The code indicates how often the same phrase is used.</li>
+<li>You can query the hive, asking for key text-- relevent phrases are listed in order of use.</li>
+<li>Hence, the "hive mind" is steadily developed, so that after a period, actual low- to mid- priority e-mails can be deleted.</li>
+<li>What remains are the phrases they contained, as a group.</li>
+</ul>
+
+<br>
+
+    <h4>Add To The Hive!</h4>
+    <br>
+    <form method='post' action = "/" id = "subform">
+        <textarea name = "textchunk" form = "subform" rows = "5" cols = "100"></textarea>
+        <br><br>
+        <input type="submit">
+    </form>
+    
+    <br><br>
+
+     <a href = "/query">Click here to Query the Hive.</a>
+    </div>
+{% endblock %}
