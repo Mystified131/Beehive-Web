@@ -4,13 +4,13 @@ from flask import Flask, request, render_template
 from flask_sqlalchemy import SQLAlchemy
 from Hivebuilder import blobintophrases
 
-import cgi, datetime, random
+import cgi, datetime
 
 #This code configures the web app.
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://mystified131:Jackson131!@mystified131.mysql.pythonanywhere-services.com/mystified131$HIVETotal'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://mystified131:Jackson131!@mystified131.mysql.pythonanywhere-services.com/mystified131$beehive'
 app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
 app.secret_key = 'pgojaeopaiern'
@@ -23,13 +23,14 @@ class Beehive(db.Model):
     phrase = db.Column(db.String(120))
     phrasecount = db.Column(db.Integer)
 
-    def __init__(self, timestamp, phrase, phrasecount):
+    def __init__(self, id, timestamp, phrase, phrasecount):
+        self.id = id
         self.timestamp = timestamp
         self.phrase = phrase
         self.phrasecount = phrasecount
 
 @app.route('/', methods=['POST', 'GET'])
-def index():
+def indexb():
     if request.method == 'POST':
         textchunk = request.form["textchunk"]
         textchunk = cgi.escape(textchunk)
@@ -41,7 +42,6 @@ def index():
                 lista.append(i)
             tim = "".join(lista)
         timestamp = tim
-
         for elem in phraseset:
             phrase = elem
             phrasecount = 1
@@ -50,14 +50,17 @@ def index():
                 current.phrasecount += 1
                 db.session.commit()
             else:
-                new_phrase = Beehive(timestamp, phrase, phrasecount)
+                beeall = Beehive.query.all()
+                num1 = len(beeall)
+                id = num1
+                new_phrase = Beehive(id, timestamp, phrase, phrasecount)
                 db.session.add(new_phrase)
                 db.session.commit()
 
-        return render_template('index.html')
-    
+        return render_template('indexb.html')
+
     else:
-        return render_template('index.html')
+        return render_template('indexb.html')
 
 @app.route('/query', methods=['POST', 'GET'])
 def query():
@@ -69,10 +72,10 @@ def query():
         queset = Beehive.query.all()
         for elem in queset:
             if quechunk in elem.phrase:
-                newstr = str(elem.phrasecount) +  " times used: " +  elem.phrase 
+                newstr = str(elem.phrasecount) +  " times used: " +  elem.phrase
                 quelst.append(newstr)
         quelst.sort(reverse=True)
-        
+
         return render_template('query.html', honey = quelst)
 
     else:
