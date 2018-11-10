@@ -15,7 +15,7 @@ app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
 app.secret_key = 'pgojaeopaiern'
 
-#This code sets up the model for the database
+#This code sets up the model for the database.
 
 class Beehive(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -28,6 +28,8 @@ class Beehive(db.Model):
         self.timestamp = timestamp
         self.phrase = phrase
         self.phrasecount = phrasecount
+
+#This code defines the main page, where users can submit text to the database.
 
 @app.route('/', methods=['POST', 'GET'])
 def indexb():
@@ -55,12 +57,15 @@ def indexb():
                 id = num1
                 new_phrase = Beehive(id, timestamp, phrase, phrasecount)
                 db.session.add(new_phrase)
-                db.session.commit()
+
+        db.session.commit()
 
         return render_template('indexb.html')
 
     else:
         return render_template('indexb.html')
+
+#This code defines the query page, where users can see if certain pieces of text are in the database.
 
 @app.route('/query', methods=['POST', 'GET'])
 def query():
@@ -68,10 +73,13 @@ def query():
         quechunk = request.form["quechunk"]
         quechunk = cgi.escape(quechunk)
         quechunk = quechunk.lower()
+        quechunk2 = request.form["quechunk2"]
+        quechunk2 = cgi.escape(quechunk2)
+        quechunk2 = quechunk2.lower()
         quelst = []
         queset = Beehive.query.all()
         for elem in queset:
-            if quechunk in elem.phrase:
+            if quechunk in elem.phrase and quechunk2 in elem.phrase:
                 newstr = str(elem.phrasecount) +  " times used: " +  elem.phrase
                 quelst.append(newstr)
         quelst.sort(reverse=True)
