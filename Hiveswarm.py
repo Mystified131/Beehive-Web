@@ -38,12 +38,9 @@ class Beehive(db.Model):
 @app.route('/', methods=['POST', 'GET'])
 def indexb():
     if request.method == 'POST':
-        error = ""
         textchunk = request.form["textchunk"]
         textchunk = cgi.escape(textchunk)
         phraseset = blobintophrases(textchunk)
-        if len(phraseset) < 4:
-            error = "Please enter a text chunk with more elements."
         right_now = datetime.datetime.now().isoformat()
         lista = []
         for i in right_now:
@@ -70,7 +67,7 @@ def indexb():
 
         db.session.commit()
 
-        return render_template('indexb.html', error = error)
+        return render_template('indexb.html')
 
     else:
         return render_template('indexb.html')
