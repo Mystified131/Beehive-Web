@@ -60,11 +60,11 @@ allrows.sort(reverse=True)
 for x in range(50):
     topfifty.append(allrows[x])
 
-#This code writes the report data to a text file and saves it.
+#This code writes the report data to text files and saves them.
 
 outstr = ""
 
-filnm = "HIVE_Use_Report_Log_Current.txt"
+filnm = "HIVE_Use_Report_Log_" + right_now +".txt"
 
 outfile = open(filnm, "w")
 
@@ -85,5 +85,7 @@ for y in range(50):
     outfile.write(yz + ': ' + outstr + '\n')
 
 outfile.close()
+
+outstr = ""
 
 ## THE GHOST OF THE SHADOW ##
