@@ -34,9 +34,12 @@ class Beehive(db.Model):
 @app.route('/', methods=['POST', 'GET'])
 def indexb():
     if request.method == 'POST':
+        error = ""
         textchunk = request.form["textchunk"]
         textchunk = cgi.escape(textchunk)
         phraseset = blobintophrases(textchunk)
+        if len(phraseset) < 4:
+            error = "Please enter a text chunk with more elements."
         right_now = datetime.datetime.now().isoformat()
         lista = []
         for i in right_now:
@@ -60,7 +63,7 @@ def indexb():
 
         db.session.commit()
 
-        return render_template('indexb.html')
+        return render_template('indexb.html', error = error)
 
     else:
         return render_template('indexb.html')
@@ -81,10 +84,13 @@ def query():
         for elem in queset:
             if quechunk in elem.phrase and quechunk2 in elem.phrase:
                 newstr = str(elem.phrasecount) +  " times used: " +  elem.phrase
+                error = ""
                 quelst.append(newstr)
+            if not quelst:
+                error = "No results found. Please try again."
         quelst.sort(reverse=True)
 
-        return render_template('query.html', honey = quelst)
+        return render_template('query.html', honey = quelst, error = error)
 
     else:
 

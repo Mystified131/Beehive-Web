@@ -25,8 +25,8 @@ def blobintophrases(textchunk):
         return phraselist
 
     if len(wordlst) >= 5:
-        for numb in range(int(len(wordlst)/4)):
-            num1 = numb * 4
+        for numb in range(int(len(wordlst)/3)):
+            num1 = numb * 3
             texttemp = ""
             texttemp += (wordlst[num1 - 5] + " " + wordlst[num1 - 4] + " " + wordlst[num1 - 3] + " " + wordlst[num1 - 2] + " " + wordlst[num1 - 1])
             phraselist.append(texttemp)
