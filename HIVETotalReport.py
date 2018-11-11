@@ -75,8 +75,8 @@ outfile.write('\n')
 
 outfile.write('Total rows in database: ' + stotrow + '\n')
 outfile.write('Total phrases added in database: ' + stotphr + '\n')
-outfile.write('Total queries made on database: ' + stotque + '\n')
-outfile.write('Total activity in database: ' + stotact + '\n')
+outfile.write('Total query hits made on database: ' + stotque + '\n')
+outfile.write('Total phrases added and query hits in database: ' + stotact + '\n')
 outfile.write('\n')
 
 for y in range(50):
