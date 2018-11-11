@@ -22,12 +22,16 @@ class Beehive(db.Model):
     timestamp = db.Column(db.String(120))
     phrase = db.Column(db.String(120))
     phrasecount = db.Column(db.Integer)
+    quecount = db.Column(db.Integer)
+    actcount = db.Column(db.Integer)
 
-    def __init__(self, id, timestamp, phrase, phrasecount):
+    def __init__(self, id, timestamp, phrase, phrasecount, quecount, actcount):
         self.id = id
         self.timestamp = timestamp
         self.phrase = phrase
         self.phrasecount = phrasecount
+        self.quecount = quecount
+        self.actcount = actcount
 
 #This code defines the main page, where users can submit text to the database.
 
@@ -53,12 +57,15 @@ def indexb():
             current = Beehive.query.filter_by(phrase=phrase).first()
             if current:
                 current.phrasecount += 1
+                current.actcount += 1
                 db.session.commit()
             else:
                 beeall = Beehive.query.all()
                 num1 = len(beeall)
                 id = num1
-                new_phrase = Beehive(id, timestamp, phrase, phrasecount)
+                quecount = 0
+                actcount = 1
+                new_phrase = Beehive(id, timestamp, phrase, phrasecount, quecount, actcount)
                 db.session.add(new_phrase)
 
         db.session.commit()
@@ -83,11 +90,16 @@ def query():
         queset = Beehive.query.all()
         for elem in queset:
             if quechunk in elem.phrase and quechunk2 in elem.phrase:
-                newstr = str(elem.phrasecount) +  " times used: " +  elem.phrase
+                newstr = str(elem.actcount) +  " Total activity / " + str(elem.phrasecount) +  " Times entered / " +  str(elem.quecount) +  " Times queried: " + elem.phrase
                 error = ""
+                elem.quecount += 1
+                elem.actcount += 1
                 quelst.append(newstr)
+
             if not quelst:
                 error = "No results found. Please try again."
+
+        db.session.commit()
         quelst.sort(reverse=True)
 
         return render_template('query.html', honey = quelst, error = error)
