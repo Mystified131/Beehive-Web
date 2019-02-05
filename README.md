@@ -10,4 +10,3 @@ You can query the hive, asking for key text-- relevent phrases are listed in ord
 Hence, the "hive mind" is steadily developed, so that after a period, actual low- to mid- priority e-mails can be deleted.
 What remains are the phrases they contained, as a group.
 
-The web app is currently housed here: http://www.thomasparksolutions2.com/
